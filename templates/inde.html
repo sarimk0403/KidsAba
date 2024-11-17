@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor and Patient Management</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_index.css') }}">
+</head>
+<body>
+
+<h2>Doctor and Patient Management</h2>
+
+<div class="form-section">
+    <!-- Form to add a doctor -->
+    <div class="form-box">
+        <h3>Add Doctor</h3>
+        <form id="doctorForm">
+            <input type="text" id="doctorName" placeholder="Name" required>
+            <input type="text" id="doctorPosition" placeholder="Position" required>
+            <div id="doctorAvailabilityContainer">
+                <!-- Availability fields will be added here -->
+            </div>
+            <button type="button" onclick="addAvailabilityField('doctorAvailabilityContainer')">Add Availability</button>
+            <button type="button" onclick="addDoctor()">Add Doctor</button>
+        </form>
+    </div>
+
+    <!-- Form to add a patient -->
+    <div class="form-box">
+        <h3>Add Patient</h3>
+        <form id="patientForm">
+            <input type="text" id="patientName" placeholder="Name" required>
+            <div id="patientAvailabilityContainer">
+                <!-- Availability fields will be added here -->
+            </div>
+            <button type="button" onclick="addAvailabilityField('patientAvailabilityContainer')">Add Availability</button>
+            <button type="button" onclick="addPatient()">Add Patient</button>
+        </form>
+    </div>
+</div>
+
+<!-- Display lists of doctors and patients -->
+<div class="list-section">
+    <div class="list" id="doctorList">
+        <h3>Doctors</h3>
+        <!-- Doctor list will be populated here -->
+    </div>
+    <div class="list" id="patientList">
+        <h3>Patients</h3>
+        <!-- Patient list will be populated here -->
+    </div>
+</div>
+
+<a href="{{ url_for('schedule') }}">Go to Schedule Page</a>
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

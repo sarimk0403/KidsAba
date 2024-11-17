@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schedule</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sidebar_styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_schedule.css') }}">
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+</head>
+
+<body>
+
+    <div class="sidebar close">
+        <div class="menu-details">
+            <i class='bx bx-menu' onclick="toggleSidebar()"></i>
+            <span class="logo_name">Emergitech</span>
+        </div>
+        <ul class="nav-links">
+            <li>
+                <a href="/management">
+                    <i class='bx bx-home'></i>
+                    <span class="link_name">Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="/schedule">
+                    <i class='bx bx-collection'></i>
+                    <span class="link_name">Management</span>
+                </a>
+            </li>
+            <li>
+                <a href="/analytics">
+                    <i class='bx bx-pie-chart-alt-2'></i>
+                    <span class="link_name">Analytics</span>
+                </a>
+            </li>
+        </ul>
+        <div class="logout-section" onclick="logout()">
+            <i class='bx bx-log-out'></i>
+            <span class="profile_name">Logout</span>
+        </div>
+    </div>
+
+    <section class="home-section">
+        <div class="home-content">
+            <h2>Weekly Schedule</h2>
+        </div>
+
+        <button onclick="generateSchedule()" class="generate-schedule">Generate Schedule</button>
+
+        <table id="scheduleTable">
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Monday</th>
+                    <th>Tuesday</th>
+                    <th>Wednesday</th>
+                    <th>Thursday</th>
+                    <th>Friday</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Rows will be added dynamically -->
+            </tbody>
+        </table>
+
+        <div class="unscheduled-container">
+            <div id="unscheduledDoctors" class="list-section">
+                <!-- Unscheduled doctors will be displayed here -->
+            </div>
+
+            <div id="unscheduledPatients" class="list-section">
+                <!-- Unscheduled patients will be displayed here -->
+            </div>
+        </div>
+
+    </section>
+
+    <script src="{{ url_for('static', filename='js/schedule.js') }}"></script>
+    <script>
+        let sidebar = document.querySelector(".sidebar");
+
+        function toggleSidebar() {
+            sidebar.classList.toggle("close");
+        }
+
+        function logout() {
+            window.location.href = '/';
+        }
+    </script>
+</body>
+
+</html>

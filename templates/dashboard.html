@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Side Menu Bar - Dark Mode</title>
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+        body {
+            transition: margin-left 0.3s;
+            overflow-x: hidden;
+            background: #181818;
+            color: #f5f5f5;
+        }
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 260px;
+            background: #1b1b1b;
+            z-index: 100;
+            transition: all 0.5s ease;
+        }
+        .sidebar.close {
+            width: 78px;
+        }
+        .sidebar .menu-details {
+            height: 60px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            padding-left: 20px;
+        }
+        .sidebar .menu-details i {
+            font-size: 30px;
+            color: #ffa500;
+            cursor: pointer;
+        }
+        .sidebar .menu-details .logo_name {
+            font-size: 22px;
+            color: #ffa500;
+            font-weight: 600;
+            margin-left: 10px;
+            transition: 0.3s ease;
+        }
+        .sidebar.close .menu-details .logo_name {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .sidebar .nav-links {
+            height: calc(100% - 120px);
+            padding: 30px 0 60px 0;
+            overflow: hidden;
+        }
+        .sidebar .nav-links li {
+            position: relative;
+            list-style: none;
+            transition: all 0.4s ease;
+        }
+        .sidebar .nav-links li:hover {
+            background: #333;
+        }
+        .sidebar .nav-links li a {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+        .sidebar .nav-links li i {
+            height: 50px;
+            min-width: 78px;
+            text-align: center;
+            line-height: 50px;
+            color: #ffa500;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .sidebar .nav-links li a .link_name {
+            font-size: 18px;
+            font-weight: 400;
+            color: #f5f5f5;
+            transition: all 0.4s ease;
+        }
+        .sidebar.close .nav-links li a .link_name {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .sidebar .profile-details {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #333;
+            padding: 12px;
+            transition: all 0.5s ease;
+        }
+        .sidebar .profile-details .profile-content {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        .sidebar .profile-details i {
+            font-size: 24px;
+            color: #ffa500;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        .sidebar .profile-details .profile_name {
+            color: #f5f5f5;
+            font-size: 18px;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+        .sidebar.close .profile-details {
+            background: #333;
+        }
+        .sidebar.close .profile-details i {
+            display: block;
+        }
+        .sidebar.close .profile-details .profile_name {
+            display: none;
+        }
+        .home-section {
+            position: relative;
+            overflow-x: hidden;
+            left: 78px;
+            width: calc(100% - 78px);
+            transition: all 0.5s ease;
+        }
+        .sidebar.close ~ .home-section {
+            left: 78px;
+            width: calc(100% - 78px);
+        }
+        .home-section .home-content {
+            height: 60px;
+            display: flex;
+            align-items: center;
+        }
+        .schedule-container {
+            margin: 20px;
+            padding: 20px;
+            background: #2c2c2c;
+            border-radius: 10px;
+        }
+        .schedule-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            color: #f5f5f5;
+        }
+        .schedule-header .month {
+            font-size: 20px;
+            font-weight: 500;
+        }
+        .schedule-header .controls {
+            display: flex;
+            gap: 10px;
+        }
+        .schedule-header .controls button {
+            background: #ffa500;
+            border: none;
+            padding: 5px 10px;
+            color: #181818;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .schedule-header .toggle-calendar {
+            display: flex;
+            align-items: center;
+        }
+        .schedule-header .toggle-calendar label {
+            margin-left: 10px;
+            font-weight: 500;
+        }
+        .schedule-grid {
+            display: grid;
+            grid-template-columns: 60px repeat(7, 1fr);
+            grid-template-rows: 50px repeat(9, 60px);
+            grid-gap: 2px;
+        }
+        .schedule-grid .time-slot {
+            background: #1b1b1b;
+            color: #f5f5f5;
+            text-align: center;
+            line-height: 60px;
+            font-weight: 500;
+        }
+        .schedule-grid .day-header {
+            background: #1b1b1b;
+            color: #f5f5f5;
+            text-align: center;
+            line-height: 50px;
+            font-weight: 500;
+            border-bottom: 1px solid #333;
+        }
+        .schedule-grid .day-slot {
+            border-top: 1px solid #333;
+            border-right: 1px solid #333;
+            position: relative;
+        }
+        .schedule-grid .day-slot::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-top: 1px solid #444;
+            border-right: 1px solid #444;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar close">
+        <div class="menu-details">
+            <i class='bx bx-menu' onclick="toggleSidebar()"></i>
+            <span class="logo_name">Innovatec</span>
+        </div>
+        <ul class="nav-links">
+            <li>
+                <a href="#">
+                    <i class='bx bx-home'></i>
+                    <span class="link_name">Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class='bx bx-collection'></i>
+                    <span class="link_name">Management</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class='bx bx-pie-chart-alt-2'></i>
+                    <span class="link_name">Analytics</span>
+                </a>
+            </li>
+        </ul>
+        <div class="profile-details">
+            <div class="profile-content" onclick="logout()">
+                <i class='bx bx-log-out'></i>
+                <span class="profile_name">Logout</span>
+            </div>
+        </div>
+    </div>
+    <section class="home-section">
+        <div class="home-content">
+           <!-- Removed the Dashboard Heading and Logo -->
+        </div>
+        <div class="schedule-container">
+            <div class="schedule-header">
+                <div class="month" id="currentMonth">November 2024</div>
+                <div class="controls">
+                    <button onclick="previousWeek()">&lt;</button>
+                    <button onclick="thisWeek()">This Week</button>
+                    <button onclick="nextWeek()">&gt;</button>
+                </div>
+                
+            </div>
+            <div class="schedule-grid">
+                <div class="time-slot"></div>
+                <div class="day-header">Mon</div>
+                <div class="day-header">Tue</div>
+                <div class="day-header">Wed</div>
+                <div class="day-header">Thu</div>
+                <div class="day-header">Fri</div>
+                <div class="day-header">Sat</div>
+                <div class="day-header">Sun</div>
+                <div class="time-slot">08:00</div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="time-slot">09:00</div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="time-slot">10:00</div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="time-slot">11:00</div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="time-slot">12:00</div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="time-slot">01:00</div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="time-slot">02:00</div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="time-slot">03:00</div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="time-slot">04:00</div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="time-slot">05:00</div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+                <div class="day-slot"></div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        let sidebar = document.querySelector(".sidebar");
+        function toggleSidebar() {
+            sidebar.classList.toggle("close");
+        }
+
+        function logout() {
+            window.location.href = 'login.html'; // Change to the actual path of your login page
+        }
+    </script>
+</body>
+</html>
