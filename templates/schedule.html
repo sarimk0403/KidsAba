@@ -46,36 +46,43 @@
     <section class="home-section">
         <div class="home-content">
             <h2>Weekly Schedule</h2>
+            <!-- Generate Schedule Button -->
+            
         </div>
 
-        <button onclick="generateSchedule()" class="generate-schedule">Generate Schedule</button>
+        <div class="button-container">
+            <button id="generateScheduleBtn" onclick="generateSchedule()">Generate Schedule</button>
+        </div>
 
+        <!-- Table with Patients as Headers -->
         <table id="scheduleTable">
             <thead>
-                <tr>
-                    <th>Time</th>
-                    <th>Monday</th>
-                    <th>Tuesday</th>
-                    <th>Wednesday</th>
-                    <th>Thursday</th>
-                    <th>Friday</th>
+                <tr id="tableHeader">
+                    <th>Time</th> <!-- Static Time Column -->
                 </tr>
             </thead>
-            <tbody>
-                <!-- Rows will be added dynamically -->
+            <tbody id="scheduleBody">
+                <!-- Time rows will be dynamically generated here -->
             </tbody>
         </table>
 
-        <div class="unscheduled-container">
-            <div id="unscheduledDoctors" class="list-section">
-                <!-- Unscheduled doctors will be displayed here -->
-            </div>
-
-            <div id="unscheduledPatients" class="list-section">
-                <!-- Unscheduled patients will be displayed here -->
-            </div>
+        <!-- Bottom Tabs for Days -->
+        <!-- <div class="day-tabs">
+            <button onclick="showDay('Monday')">Monday</button>
+            <button onclick="showDay('Tuesday')">Tuesday</button>
+            <button onclick="showDay('Wednesday')">Wednesday</button>
+            <button onclick="showDay('Thursday')">Thursday</button>
+            <button onclick="showDay('Friday')">Friday</button>
+            <button onclick="showDay('Saturday')">Saturday</button>
+        </div> -->
+        <div class="day-tabs">
+            <button class="day-tab active-day" onclick="switchDay(this, 'Monday')">Monday</button>
+            <button class="day-tab" onclick="switchDay(this, 'Tuesday')">Tuesday</button>
+            <button class="day-tab" onclick="switchDay(this, 'Wednesday')">Wednesday</button>
+            <button class="day-tab" onclick="switchDay(this, 'Thursday')">Thursday</button>
+            <button class="day-tab" onclick="switchDay(this, 'Friday')">Friday</button>
+            <button class="day-tab" onclick="switchDay(this, 'Saturday')">Saturday</button>
         </div>
-
     </section>
 
     <script src="{{ url_for('static', filename='js/schedule.js') }}"></script>
